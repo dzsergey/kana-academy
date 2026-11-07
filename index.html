@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#172554">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Kana Academy">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon.svg">
+<title>Kana Academy</title>
+<style>
+:root{color-scheme:light dark;--bg:#f5f7fb;--card:#fff;--ink:#172033;--muted:#667085;--line:#dce2ec;--accent:#3157a4;--good:#18794e;--bad:#b42318}
+@media(prefers-color-scheme:dark){:root{--bg:#111827;--card:#1f2937;--ink:#f3f4f6;--muted:#aab4c3;--line:#374151;--accent:#91b4ff}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px system-ui,-apple-system,sans-serif}
+main{max-width:720px;margin:auto;padding:20px 16px 40px}.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+h1{font-size:24px;margin:0}.sub,.muted{color:var(--muted);font-size:13px}.badge{font-size:12px;color:var(--muted);border:1px solid var(--line);border-radius:99px;padding:6px 9px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:14px 0}.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:15px;margin:12px 0}
+.statnum{font-size:25px;font-weight:750}.statlabel{font-size:12px;color:var(--muted)}
+.tabs,.actions{display:flex;gap:8px;flex-wrap:wrap}.tabs button{flex:1}
+button{font:inherit;border:1px solid var(--line);border-radius:11px;background:var(--card);color:var(--ink);padding:10px 13px;cursor:pointer}
+button.active{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 13%,var(--card));font-weight:700}
+button.primary{background:var(--accent);border-color:var(--accent);color:white;font-weight:700}
+button:disabled{opacity:.45;cursor:default}
+.kana{font-family:serif;font-size:104px;line-height:1.25;text-align:center;padding:14px 0}
+.choices{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.choices button{font-size:22px;min-height:58px}
+.choices button.correct{border:2px solid var(--good)}.choices button.wrong{border:2px solid var(--bad)}
+.feedback{text-align:center;min-height:26px;margin:12px 0;font-weight:600}
+.progressrow{display:flex;align-items:center;gap:10px;margin:9px 0}.progressrow .char{font-size:24px;width:42px}
+.track{height:8px;background:var(--line);border-radius:20px;overflow:hidden;flex:1}.fill{height:100%;background:var(--good)}
+.small{font-size:12px;color:var(--muted)}.hidden{display:none!important}
+@media(min-width:600px){main{padding-top:32px}.card{padding:19px}}
+</style>
+</head>
+<body>
+<main>
+<header class="top"><div><h1>Kana Academy</h1><div class="sub">Japanese kana practice · progress saved on this device</div></div><span class="badge" id="saveState">Saved</span></header>
+<section class="stats">
+<div class="card"><div class="statlabel">Answered</div><div class="statnum" id="total">0</div></div>
+<div class="card"><div class="statlabel">Accuracy</div><div class="statnum" id="accuracy">—</div></div>
+<div class="card"><div class="statlabel">Mastered</div><div class="statnum" id="mastered">46</div></div>
+</section>
+<section class="card">
+<strong>Practice mode</strong>
+<div class="tabs" style="margin-top:10px">
+<button data-mode="kata" class="active">Katakana</button><button data-mode="hira">Hiragana review</button><button data-mode="mixed">Mixed</button>
+</div>
+<p class="muted" id="modeHelp">Start with katakana. All basic hiragana are marked mastered.</p>
+<div class="actions"><button id="showProgress">Progress details</button><button id="newRound">New shuffled round</button></div>
+</section>
+<section class="card" aria-live="polite">
+<div class="top"><span class="small" id="scriptLabel">KATAKANA</span><span class="small" id="countLabel">Question 1</span></div>
+<div class="kana" id="kana">ア</div>
+<div class="muted" style="text-align:center;margin-bottom:12px">Choose the pronunciation</div>
+<div class="choices" id="choices"></div>
+<div class="feedback" id="feedback"></div>
+<button class="primary" id="next" style="width:100%" disabled>Next character</button>
+</section>
+<section class="card hidden" id="progressPanel">
+<div class="top"><strong>Character progress</strong><button id="closeProgress">Close</button></div>
+<div id="progressList"></div>
+<p class="small">Mastery is based on at least 5 attempts and 80% accuracy. Hiragana is pre-marked mastered based on your previous study.</p>
+<div class="actions"><button id="export">Export backup</button><label><button type="button" id="importButton">Import backup</button><input type="file" id="importFile" accept="application/json" class="hidden"></label><button id="reset">Reset statistics</button></div>
+</section>
+<footer class="small" style="text-align:center;margin-top:18px">Works offline after first load. Use Export backup to move progress to another device.</footer>
+</main>
+<script>
+const H=[['あ','a'],['い','i'],['う','u'],['え','e'],['お','o'],['か','ka'],['き','ki'],['く','ku'],['け','ke'],['こ','ko'],['さ','sa'],['し','shi'],['す','su'],['せ','se'],['そ','so'],['た','ta'],['ち','chi'],['つ','tsu'],['て','te'],['と','to'],['な','na'],['に','ni'],['ぬ','nu'],['ね','ne'],['の','no'],['は','ha'],['ひ','hi'],['ふ','fu'],['へ','he'],['ほ','ho'],['ま','ma'],['み','mi'],['む','mu'],['め','me'],['も','mo'],['や','ya'],['ゆ','yu'],['よ','yo'],['ら','ra'],['り','ri'],['る','ru'],['れ','re'],['ろ','ro'],['わ','wa'],['を','wo'],['ん','n']];
+const K=[['ア','a'],['イ','i'],['ウ','u'],['エ','e'],['オ','o'],['カ','ka'],['キ','ki'],['ク','ku'],['ケ','ke'],['コ','ko'],['サ','sa'],['シ','shi'],['ス','su'],['セ','se'],['ソ','so'],['タ','ta'],['チ','chi'],['ツ','tsu'],['テ','te'],['ト','to'],['ナ','na'],['ニ','ni'],['ヌ','nu'],['ネ','ne'],['ノ','no'],['ハ','ha'],['ヒ','hi'],['フ','fu'],['ヘ','he'],['ホ','ho'],['マ','ma'],['ミ','mi'],['ム','mu'],['メ','me'],['モ','mo'],['ヤ','ya'],['ユ','yu'],['ヨ','yo'],['ラ','ra'],['リ','ri'],['ル','ru'],['レ','re'],['ロ','ro'],['ワ','wa'],['ヲ','wo'],['ン','n']];
+const KEY='kanaAcademy_v1';
+const $=id=>document.getElementById(id);
+const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const initial=()=>({total:0,correct:0,stats:{},hiraMastered:true});
+let data;try{data=JSON.parse(localStorage.getItem(KEY))||initial()}catch{data=initial()}
+let mode='kata',current=null,answered=false,q=0;
+function save(){try{localStorage.setItem(KEY,JSON.stringify(data));$('saveState').textContent='Saved ✓'}catch{$('saveState').textContent='Save unavailable'}}
+function key(script,ch){return script+':'+ch}
+function stat(k){return data.stats[k]||(data.stats[k]={seen:0,correct:0,wrong:0,streak:0})}
+function mastered(k){if(k.startsWith('hira:')&&data.hiraMastered)return true;let s=stat(k);return s.seen>=5&&s.correct/s.seen>=.8}
+function pool(){let a=[];if(mode!=='kata')H.forEach(x=>a.push({script:'hira',ch:x[0],romaji:x[1],key:key('hira',x[0])}));if(mode!=='hira')K.forEach(x=>a.push({script:'kata',ch:x[0],romaji:x[1],key:key('kata',x[0])}));return a}
+function updateStats(){ $('total').textContent=data.total;$('accuracy').textContent=data.total?Math.round(100*data.correct/data.total)+'%':'—';$('mastered').textContent=H.filter(x=>mastered(key('hira',x[0]))).length+K.filter(x=>mastered(key('kata',x[0]))).length}
+function nextQuestion(){let a=pool(),review=a.filter(x=>!mastered(x.key));let choicesPool=review.length?review:a;let weighted=choicesPool.map(x=>({x,w:1+stat(x.key).wrong*2+(stat(x.key).seen===0?2:0)+Math.max(0,4-stat(x.key).streak)}));let total=weighted.reduce((s,x)=>s+x.w,0),r=Math.random()*total;current=weighted.find(x=>(r-=x.w)<=0)?.x||weighted[0].x;answered=false;q++;$('kana').textContent=current.ch;$('scriptLabel').textContent=current.script.toUpperCase();$('countLabel').textContent='Question '+q;$('feedback').textContent='';$('next').disabled=true;$('choices').innerHTML='';
+let distractors=shuffle([...new Set(a.map(x=>x.romaji).filter(x=>x!==current.romaji))]).slice(0,3);let opts=shuffle([current.romaji,...distractors]);opts.forEach(v=>{let b=document.createElement('button');b.textContent=v;b.onclick=()=>answer(v,b);$('choices').append(b)})}
+function answer(v,btn){if(answered)return;answered=true;let ok=v===current.romaji,s=stat(current.key);s.seen++;data.total++;if(ok){s.correct++;s.streak++;data.correct++;$('feedback').textContent='Correct — '+current.ch+' = '+current.romaji}else{s.wrong++;s.streak=0;$('feedback').textContent='Not quite — '+current.ch+' is '+current.romaji}Array.from($('choices').children).forEach(b=>{b.disabled=true;if(b.textContent===current.romaji)b.classList.add('correct')});if(!ok)btn.classList.add('wrong');$('next').disabled=false;save();updateStats()}
+function progress(){let out='';[['Hiragana',H,'hira'],['Katakana',K,'kata']].forEach(([name,arr,scr])=>{out+=`<h3>${name}</h3>`;arr.forEach(([ch,ro])=>{let s=stat(key(scr,ch)),m=mastered(key(scr,ch));out+=`<div class="progressrow"><span class="char">${ch}</span><span style="width:36px">${ro}</span><div class="track"><div class="fill" style="width:${s.seen?Math.round(100*s.correct/s.seen):0}%"></div></div><span class="small">${scr==='hira'&&data.hiraMastered?'Mastered':m?'Mastered':s.seen?`${s.correct}/${s.seen}`:'New'}</span></div>`})});$('progressList').innerHTML=out}
+document.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>{mode=b.dataset.mode;document.querySelectorAll('[data-mode]').forEach(x=>x.classList.toggle('active',x===b));$('modeHelp').textContent=mode==='kata'?'Practice katakana; hiragana remains marked mastered.':mode==='hira'?'Review the hiragana you have already learned.':'Switch unpredictably between hiragana and katakana.';q=0;nextQuestion()});
+$('next').onclick=nextQuestion;$('newRound').onclick=()=>{q=0;nextQuestion()};$('showProgress').onclick=()=>{$('progressPanel').classList.remove('hidden');progress()};$('closeProgress').onclick=()=>$('progressPanel').classList.add('hidden');
+$('export').onclick=()=>{let blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='kana-academy-backup.json';a.click();URL.revokeObjectURL(a.href)};
+$('importButton').onclick=()=>$('importFile').click();$('importFile').onchange=async e=>{try{let d=JSON.parse(await e.target.files[0].text());if(typeof d.total!=='number'||!d.stats)throw Error();data=d;save();updateStats();progress();alert('Backup imported.')}catch{alert('That backup file could not be read.')}};
+$('reset').onclick=()=>{if(confirm('Reset all practice statistics? Hiragana will remain marked mastered.')){data=initial();save();updateStats();progress();nextQuestion()}};
+if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+save();updateStats();nextQuestion();
+</script>
+</body></html>
