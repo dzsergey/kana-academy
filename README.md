@@ -1,22 +1,33 @@
-# Kana Academy
+# Kana Academy — updated GitHub Pages package
 
-A small installable Progressive Web App for kana practice.
+An installable, offline-capable Progressive Web App for hiragana and katakana practice.
+
+## What's new
+
+- **Mixed mode** keeps mastered characters in the pool at a lower selection weight instead of excluding them.
+- **Independent mastery by direction:** each character requires 10 consecutive correct answers in Kana → Romaji and, separately, 10 in Romaji → Kana. An incorrect answer resets only the active direction's streak.
+- **Three answer directions:** Kana → Romaji, Romaji → Kana, and Random direction (chosen independently for each question).
+- **Voiced kana:** optional dakuten and handakuten practice for both hiragana and katakana.
+- Progress details show each character's streak/mastery in both directions.
+
+## Progress compatibility
+
+The app deliberately retains the existing localStorage key `kanaAcademy_v1` and the existing top-level `total`, `correct`, `stats`, and `hiraMastered` fields. Existing per-character statistics are retained and extended with `directions.kanaToRomaji` and `directions.romajiToKana` records. The prior app's pre-mastered basic hiragana status is carried forward for Kana → Romaji only; Romaji → Kana mastery is earned separately. No progress is reset during the upgrade.
+
+Before replacing files in a live repository, use **Progress details → Export backup** in the currently installed app as an extra safeguard. Do not clear Safari website data.
 
 ## Publish with GitHub Pages
-1. Create a GitHub account or sign in.
-2. Create a new **public** repository named `kana-academy`.
-3. Upload the files in this folder to the repository root (not the ZIP file itself).
-4. In the repository, open **Settings → Pages**.
-5. Under **Build and deployment**, choose **Deploy from a branch**.
-6. Choose branch **main** and folder **/(root)**, then Save.
-7. Wait for GitHub Pages to publish. The site URL will be `https://YOUR-USERNAME.github.io/kana-academy/`.
+
+1. Keep a backup of the current repository files.
+2. Upload the contents of this ZIP to the repository root, replacing the existing files (do not upload the ZIP itself).
+3. In GitHub, open **Settings → Pages** and confirm the existing deployment branch/folder.
+4. Wait for the deployment to finish, then open the site in Safari. The updated service worker uses a new cache version and activates the new files.
+5. If the Home Screen app still shows the old version, close it fully and reopen it after the site has loaded once in Safari.
 
 ## Install on iPhone
-1. Open the published URL in Safari.
-2. Tap Share → Add to Home Screen.
-3. Enable “Open as Web App” if shown, then tap Add.
+
+Open the published URL in Safari → Share → Add to Home Screen. Enable “Open as Web App” if shown.
 
 ## Progress and backup
-Progress is saved in local storage on this device/browser. Use Progress details → Export backup to save a JSON backup. Import backup on another device to restore it. Clearing Safari website data can erase local progress.
 
-All basic hiragana are marked mastered at first launch. Katakana starts as new. This is a standalone web app, not an App Store application.
+Progress is stored locally in this browser/device. Use Progress details → Export backup to save a JSON copy; Import backup restores it. There is no automatic cross-device sync. Clearing Safari website data can erase local progress.
