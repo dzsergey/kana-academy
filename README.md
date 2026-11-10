@@ -36,3 +36,12 @@ Progress is stored locally in this browser/device. Use Progress details → Expo
 ## Fix in this update
 
 In Mixed mode, Romaji → Kana questions now draw all answer choices from the same script as the current question. A hiragana question accepts only hiragana; a katakana question accepts only katakana. The service-worker cache version is bumped so browsers fetch the corrected app. Existing progress remains under `kanaAcademy_v1`.
+
+
+## Stage 3: contracted sounds (yōon)
+
+- Added optional contracted-sound practice for hiragana and katakana, including きゃ/キャ, しゅ/シュ, ちょ/チョ and voiced combinations such as ぎゃ/ギャ, じゃ/ジャ, ぴょ/ピョ.
+- Toggle **Include contracted sounds** independently from dakuten/handakuten.
+- Mixed mode still chooses one script per question; Romaji → Kana answer choices are restricted to that same script.
+- Contracted-sound progress and 10-answer directional mastery are stored under the same `kanaAcademy_v1` key. Existing progress is not reset.
+- The service-worker cache is bumped to v4 to ensure the update is fetched.
