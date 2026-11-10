@@ -31,3 +31,8 @@ Open the published URL in Safari → Share → Add to Home Screen. Enable “Ope
 ## Progress and backup
 
 Progress is stored locally in this browser/device. Use Progress details → Export backup to save a JSON copy; Import backup restores it. There is no automatic cross-device sync. Clearing Safari website data can erase local progress.
+
+
+## Fix in this update
+
+In Mixed mode, Romaji → Kana questions now draw all answer choices from the same script as the current question. A hiragana question accepts only hiragana; a katakana question accepts only katakana. The service-worker cache version is bumped so browsers fetch the corrected app. Existing progress remains under `kanaAcademy_v1`.
