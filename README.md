@@ -1,31 +1,30 @@
-# Kana Academy — Stage 4 package
+# Kana Academy — Incremental Stage 4 update
 
-An installable, offline-capable Progressive Web App for hiragana and katakana practice.
+This version separates completed kana fundamentals from new reading-mechanics practice.
 
-## Stage 4: small っ and long vowels
+## Learning tracks
 
-Enable **Include small っ & long-vowel words** to add complete-word reading practice:
+- **Kana fundamentals · review** keeps the original kana practice available as optional review. Its progress and mastery remain unchanged.
+- **Stage 4 · Reading mechanics** is a focused queue containing only the 30 new small-っ and long-vowel words. It does not mix in the 416 previously mastered kana directions.
 
-- Hiragana small っ: きって (kitte), がっこう (gakkou), きっぷ (kippu), ざっし (zasshi), ちょっと (chotto), まって (matte), いっしょ (issho), けっこん (kekkon), きっさてん (kissaten), もっと (motto).
-- Hiragana long vowels: おかあさん (okaasan), おとうさん (otousan), おにいさん (oniisan), おねえさん (oneesan), おおきい (ookii), こうこう (koukou), せんせい (sensei), とうきょう (toukyou), ゆうびん (yuubin).
-- Katakana long vowels: コーヒー (koohii), スーパー (suupaa), ケーキ (keeki), タクシー (takushii), ノート (nooto), カード (kaado), チーズ (chiizu), メール (meeru), テーブル (teeburu), スープ (suupu).
+## Mastery and progress
 
-The words can be practiced in Kana → Romaji, Romaji → Kana, or Random direction. In Mixed mode, each question belongs to exactly one script. Word questions use word-level distractors from the same script; kana-character questions continue to use kana-character distractors. Every word has independent 10-consecutive-correct mastery in each direction.
+- Each word has independent Kana → Romaji and Romaji → Kana streaks.
+- Each direction requires 10 consecutive correct answers. An incorrect answer resets only that direction.
+- Progress bars now show the mastery streak (0–10), not overall accuracy. They turn fully green only when that direction is mastered.
+- The top-level mastered-directions total counts the full catalog, including the original 416 directions and the 60 new Stage 4 directions.
 
-## Preserved features
+## Progress preservation
 
-- Basic hiragana and katakana, optional dakuten/handakuten, and optional contracted sounds.
-- Mixed mode retains mastered items at a lower frequency.
-- Independent mastery in Kana → Romaji and Romaji → Kana.
-- Existing progress remains under localStorage key `kanaAcademy_v1`; the prior 416 mastered directions are preserved.
-- Stage 4 adds 30 complete words (60 additional possible mastery directions) with fresh progress.
-- Service-worker cache bumped to v5.
+- Uses the existing localStorage key `kanaAcademy_v1`.
+- Keeps existing basic kana, voiced kana, contracted-sound progress and the legacy hiragana mastery migration.
+- Adds Stage 4 word progress without resetting existing records.
 
 ## Publish
 
-1. In the current app, open **Progress details → Export backup** as a precaution.
-2. Extract this ZIP and upload all five files to the root of the GitHub Pages repository, replacing the previous versions.
-3. Commit the changes and wait for the Pages deployment to finish.
-4. Open the published site in Safari once, then reopen the Home Screen app. Do not clear Safari website data; that can erase local progress.
+1. Export a backup from Progress details before replacing files.
+2. Extract this ZIP and replace the five files in the GitHub Pages publishing root.
+3. Commit the changes and wait for the Pages deployment to complete.
+4. Reload the published site. The service-worker cache is bumped to v6.
 
-Progress is stored locally on this device/browser. Use Export backup and Import backup to move it between devices.
+Progress is local to this device/browser. Keep the exported backup in a safe place.
