@@ -1,47 +1,31 @@
-# Kana Academy — updated GitHub Pages package
+# Kana Academy — Stage 4 package
 
 An installable, offline-capable Progressive Web App for hiragana and katakana practice.
 
-## What's new
+## Stage 4: small っ and long vowels
 
-- **Mixed mode** keeps mastered characters in the pool at a lower selection weight instead of excluding them.
-- **Independent mastery by direction:** each character requires 10 consecutive correct answers in Kana → Romaji and, separately, 10 in Romaji → Kana. An incorrect answer resets only the active direction's streak.
-- **Three answer directions:** Kana → Romaji, Romaji → Kana, and Random direction (chosen independently for each question).
-- **Voiced kana:** optional dakuten and handakuten practice for both hiragana and katakana.
-- Progress details show each character's streak/mastery in both directions.
+Enable **Include small っ & long-vowel words** to add complete-word reading practice:
 
-## Progress compatibility
+- Hiragana small っ: きって (kitte), がっこう (gakkou), きっぷ (kippu), ざっし (zasshi), ちょっと (chotto), まって (matte), いっしょ (issho), けっこん (kekkon), きっさてん (kissaten), もっと (motto).
+- Hiragana long vowels: おかあさん (okaasan), おとうさん (otousan), おにいさん (oniisan), おねえさん (oneesan), おおきい (ookii), こうこう (koukou), せんせい (sensei), とうきょう (toukyou), ゆうびん (yuubin).
+- Katakana long vowels: コーヒー (koohii), スーパー (suupaa), ケーキ (keeki), タクシー (takushii), ノート (nooto), カード (kaado), チーズ (chiizu), メール (meeru), テーブル (teeburu), スープ (suupu).
 
-The app deliberately retains the existing localStorage key `kanaAcademy_v1` and the existing top-level `total`, `correct`, `stats`, and `hiraMastered` fields. Existing per-character statistics are retained and extended with `directions.kanaToRomaji` and `directions.romajiToKana` records. The prior app's pre-mastered basic hiragana status is carried forward for Kana → Romaji only; Romaji → Kana mastery is earned separately. No progress is reset during the upgrade.
+The words can be practiced in Kana → Romaji, Romaji → Kana, or Random direction. In Mixed mode, each question belongs to exactly one script. Word questions use word-level distractors from the same script; kana-character questions continue to use kana-character distractors. Every word has independent 10-consecutive-correct mastery in each direction.
 
-Before replacing files in a live repository, use **Progress details → Export backup** in the currently installed app as an extra safeguard. Do not clear Safari website data.
+## Preserved features
 
-## Publish with GitHub Pages
+- Basic hiragana and katakana, optional dakuten/handakuten, and optional contracted sounds.
+- Mixed mode retains mastered items at a lower frequency.
+- Independent mastery in Kana → Romaji and Romaji → Kana.
+- Existing progress remains under localStorage key `kanaAcademy_v1`; the prior 416 mastered directions are preserved.
+- Stage 4 adds 30 complete words (60 additional possible mastery directions) with fresh progress.
+- Service-worker cache bumped to v5.
 
-1. Keep a backup of the current repository files.
-2. Upload the contents of this ZIP to the repository root, replacing the existing files (do not upload the ZIP itself).
-3. In GitHub, open **Settings → Pages** and confirm the existing deployment branch/folder.
-4. Wait for the deployment to finish, then open the site in Safari. The updated service worker uses a new cache version and activates the new files.
-5. If the Home Screen app still shows the old version, close it fully and reopen it after the site has loaded once in Safari.
+## Publish
 
-## Install on iPhone
+1. In the current app, open **Progress details → Export backup** as a precaution.
+2. Extract this ZIP and upload all five files to the root of the GitHub Pages repository, replacing the previous versions.
+3. Commit the changes and wait for the Pages deployment to finish.
+4. Open the published site in Safari once, then reopen the Home Screen app. Do not clear Safari website data; that can erase local progress.
 
-Open the published URL in Safari → Share → Add to Home Screen. Enable “Open as Web App” if shown.
-
-## Progress and backup
-
-Progress is stored locally in this browser/device. Use Progress details → Export backup to save a JSON copy; Import backup restores it. There is no automatic cross-device sync. Clearing Safari website data can erase local progress.
-
-
-## Fix in this update
-
-In Mixed mode, Romaji → Kana questions now draw all answer choices from the same script as the current question. A hiragana question accepts only hiragana; a katakana question accepts only katakana. The service-worker cache version is bumped so browsers fetch the corrected app. Existing progress remains under `kanaAcademy_v1`.
-
-
-## Stage 3: contracted sounds (yōon)
-
-- Added optional contracted-sound practice for hiragana and katakana, including きゃ/キャ, しゅ/シュ, ちょ/チョ and voiced combinations such as ぎゃ/ギャ, じゃ/ジャ, ぴょ/ピョ.
-- Toggle **Include contracted sounds** independently from dakuten/handakuten.
-- Mixed mode still chooses one script per question; Romaji → Kana answer choices are restricted to that same script.
-- Contracted-sound progress and 10-answer directional mastery are stored under the same `kanaAcademy_v1` key. Existing progress is not reset.
-- The service-worker cache is bumped to v4 to ensure the update is fetched.
+Progress is stored locally on this device/browser. Use Export backup and Import backup to move it between devices.
