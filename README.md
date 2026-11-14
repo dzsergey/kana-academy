@@ -1,30 +1,22 @@
-# Kana Academy — Incremental Stage 4 update
+# Kana Academy — Stage 5: First Kanji & Vocabulary
 
-This version separates completed kana fundamentals from new reading-mechanics practice.
+This update adds a separate Stage 5 learning track while preserving the existing `kanaAcademy_v1` local save data.
 
-## Learning tracks
+## Stage 5 content
+- Introduces 10 beginner kanji: 山, 川, 日, 月, 人, 大, 小, 水, 火, 木.
+- Starts with 11 focused vocabulary items, including 火山. Each item includes its Japanese form, kana reading, romaji support, and one clear English meaning.
+- Includes a Kanji guide with core meaning and common on-yomi / kun-yomi reading patterns. These are introductory common readings, not an exhaustive dictionary.
+- Practice directions: Japanese → English and English → Japanese, including random direction.
+- Each vocabulary item tracks mastery independently in both directions. Mastery requires 10 consecutive correct answers; an incorrect answer resets only the active direction.
 
-- **Kana fundamentals · review** keeps the original kana practice available as optional review. Its progress and mastery remain unchanged.
-- **Stage 4 · Reading mechanics** is a focused queue containing only the 30 new small-っ and long-vowel words. It does not mix in the 416 previously mastered kana directions.
+## Existing learning tracks
+- Kana fundamentals remain available as optional review.
+- Stage 4 small-っ and long-vowel word practice remains available.
+- Stage 5 does not require repeating previously mastered kana or Stage 4 content.
 
-## Mastery and progress
-
-- Each word has independent Kana → Romaji and Romaji → Kana streaks.
-- Each direction requires 10 consecutive correct answers. An incorrect answer resets only that direction.
-- Progress bars now show the mastery streak (0–10), not overall accuracy. They turn fully green only when that direction is mastered.
-- The top-level mastered-directions total counts the full catalog, including the original 416 directions and the 60 new Stage 4 directions.
-
-## Progress preservation
-
-- Uses the existing localStorage key `kanaAcademy_v1`.
-- Keeps existing basic kana, voiced kana, contracted-sound progress and the legacy hiragana mastery migration.
-- Adds Stage 4 word progress without resetting existing records.
-
-## Publish
-
-1. Export a backup from Progress details before replacing files.
-2. Extract this ZIP and replace the five files in the GitHub Pages publishing root.
-3. Commit the changes and wait for the Pages deployment to complete.
-4. Reload the published site. The service-worker cache is bumped to v6.
-
-Progress is local to this device/browser. Keep the exported backup in a safe place.
+## Progress and publishing
+- Keeps the existing localStorage key `kanaAcademy_v1`; no reset is performed.
+- Export a backup from Progress details before publishing.
+- Extract this ZIP and replace all five files in the GitHub Pages publishing root, then commit.
+- The service-worker cache is bumped to v7 so the new app files are fetched.
+- Progress is local to the browser/device; keep the exported backup safe.
