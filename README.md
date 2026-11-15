@@ -1,22 +1,11 @@
-# Kana Academy — Stage 5: First Kanji & Vocabulary
+# Kana Academy — Stage 6
 
-This update adds a separate Stage 5 learning track while preserving the existing `kanaAcademy_v1` local save data.
+This update adds Stage 6: vocabulary and short sentence reading. It keeps the existing localStorage key `kanaAcademy_v1` and extends the existing data structure without resetting kana, Stage 4, or Stage 5 progress.
 
-## Stage 5 content
-- Introduces 10 beginner kanji: 山, 川, 日, 月, 人, 大, 小, 水, 火, 木.
-- Starts with 11 focused vocabulary items, including 火山. Each item includes its Japanese form, kana reading, romaji support, and one clear English meaning.
-- Includes a Kanji guide with core meaning and common on-yomi / kun-yomi reading patterns. These are introductory common readings, not an exhaustive dictionary.
-- Practice directions: Japanese → English and English → Japanese, including random direction.
-- Each vocabulary item tracks mastery independently in both directions. Mastery requires 10 consecutive correct answers; an incorrect answer resets only the active direction.
+## Publish
+1. Back up your progress using **Export backup** in the app before replacing files.
+2. Replace the repository's published files with the contents of this ZIP (index.html, manifest.webmanifest, icon.svg, sw.js).
+3. Commit the changes and wait for GitHub Pages deployment to finish.
+4. Reload Kana Academy. Stage 6 is selected by default; earlier tracks remain available.
 
-## Existing learning tracks
-- Kana fundamentals remain available as optional review.
-- Stage 4 small-っ and long-vowel word practice remains available.
-- Stage 5 does not require repeating previously mastered kana or Stage 4 content.
-
-## Progress and publishing
-- Keeps the existing localStorage key `kanaAcademy_v1`; no reset is performed.
-- Export a backup from Progress details before publishing.
-- Extract this ZIP and replace all five files in the GitHub Pages publishing root, then commit.
-- The service-worker cache is bumped to v7 so the new app files are fetched.
-- Progress is local to the browser/device; keep the exported backup safe.
+Stage 6 includes 12 vocabulary/phrase/sentence prompts in both Japanese→English and English→Japanese directions, furigana readings, a reading guide, particle notes, and independent progress keys.
